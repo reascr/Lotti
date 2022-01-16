@@ -6,12 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>542</width>
-    <height>369</height>
+    <width>1813</width>
+    <height>1049</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="statusTip">
+   <string>Aktueller Monat</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color : rgb(173, 180, 175)</string>
   </property>
   <property name="animated">
    <bool>true</bool>
@@ -20,21 +26,49 @@
    <widget class="QPushButton" name="b1">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>120</y>
-      <width>241</width>
-      <height>51</height>
+      <x>140</x>
+      <y>110</y>
+      <width>321</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <pointsize>20</pointsize>
       <weight>75</weight>
       <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(193, 164, 234); color: white; border-style: outset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px
+
+</string>
+    </property>
     <property name="text">
      <string> Monatsabrechnung erstellen</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>330</y>
+      <width>561</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>Logo.jpg</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignJustify|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>
@@ -43,17 +77,27 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>542</width>
-     <height>24</height>
+     <width>1813</width>
+     <height>27</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="font">
     <font>
+     <pointsize>18</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
    <widget class="QMenu" name="menuaktuellerMonat">
+    <property name="statusTip">
+     <string>Aktueller Monat</string>
+    </property>
     <property name="title">
      <string>Aktueller Monat</string>
     </property>
@@ -63,11 +107,33 @@
      <string>Monatsabrechnungen</string>
     </property>
     <addaction name="separator"/>
+    <addaction name="actionJanuar"/>
+    <addaction name="actionFebruar"/>
+    <addaction name="actionM_rz"/>
+    <addaction name="actionApril"/>
+    <addaction name="actionMai"/>
+    <addaction name="actionJuni"/>
+    <addaction name="actionJuli"/>
+    <addaction name="actionAugust"/>
+    <addaction name="actionSeptember"/>
+    <addaction name="actionOktober"/>
+    <addaction name="actionNovember"/>
+    <addaction name="actionDezember"/>
    </widget>
    <widget class="QMenu" name="menuStatistiken">
     <property name="title">
      <string>Statistiken</string>
     </property>
+    <widget class="QMenu" name="menu_Monats_bersicht_Einnahmen">
+     <property name="title">
+      <string> Monatsübersicht Einnahmen</string>
+     </property>
+     <addaction name="actionJanuar_2"/>
+     <addaction name="actionFebruar_2"/>
+     <addaction name="actionM_rz_2"/>
+    </widget>
+    <addaction name="menu_Monats_bersicht_Einnahmen"/>
+    <addaction name="actionJahres_bersicht"/>
    </widget>
    <addaction name="menuaktuellerMonat"/>
    <addaction name="menuMonatsabrechnungen"/>
@@ -77,6 +143,91 @@
   <action name="actionStatistiken">
    <property name="text">
     <string>Statistiken</string>
+   </property>
+  </action>
+  <action name="actionAnsicht_Excel_Datei">
+   <property name="text">
+    <string>Ansicht Excel-Datei</string>
+   </property>
+  </action>
+  <action name="actionJanuar">
+   <property name="text">
+    <string>Januar</string>
+   </property>
+  </action>
+  <action name="actionFebruar">
+   <property name="text">
+    <string>Februar</string>
+   </property>
+  </action>
+  <action name="actionM_rz">
+   <property name="text">
+    <string>März</string>
+   </property>
+  </action>
+  <action name="actionApril">
+   <property name="text">
+    <string>April</string>
+   </property>
+  </action>
+  <action name="actionMai">
+   <property name="text">
+    <string>Mai</string>
+   </property>
+  </action>
+  <action name="actionJuni">
+   <property name="text">
+    <string>Juni</string>
+   </property>
+  </action>
+  <action name="actionJuli">
+   <property name="text">
+    <string>Juli</string>
+   </property>
+  </action>
+  <action name="actionAugust">
+   <property name="text">
+    <string>August</string>
+   </property>
+  </action>
+  <action name="actionSeptember">
+   <property name="text">
+    <string>September</string>
+   </property>
+  </action>
+  <action name="actionOktober">
+   <property name="text">
+    <string>Oktober</string>
+   </property>
+  </action>
+  <action name="actionNovember">
+   <property name="text">
+    <string>November</string>
+   </property>
+  </action>
+  <action name="actionDezember">
+   <property name="text">
+    <string>Dezember</string>
+   </property>
+  </action>
+  <action name="actionJahres_bersicht">
+   <property name="text">
+    <string>Jahresübersicht Einnahmen</string>
+   </property>
+  </action>
+  <action name="actionJanuar_2">
+   <property name="text">
+    <string>Januar</string>
+   </property>
+  </action>
+  <action name="actionFebruar_2">
+   <property name="text">
+    <string>Februar</string>
+   </property>
+  </action>
+  <action name="actionM_rz_2">
+   <property name="text">
+    <string>März</string>
    </property>
   </action>
  </widget>
