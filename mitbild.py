@@ -134,7 +134,7 @@ class Ui_MainWindow(object):
         self.b1.setText(_translate("MainWindow", " Monatsabrechnung erstellen"))
         # Kopie von tryingobject.py
         self.b1.clicked.connect(self.clicked) 
-        #
+        # neu
         self.menuaktuellerMonat.setStatusTip(_translate("MainWindow", "Aktueller Monat"))
         self.menuaktuellerMonat.setTitle(_translate("MainWindow", "Aktueller Monat"))
         self.menuMonatsabrechnungen.setTitle(_translate("MainWindow", "Monatsabrechnungen"))
@@ -163,7 +163,7 @@ class Ui_MainWindow(object):
     def clicked(self):
         self.b1.setStyleSheet("background-color: rgb(100, 100, 230); color: grey; border-style: inset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px")
         
-        df = pd.read_csv("/Users/rea/Documents/ProgrammLotti/Stundentabelle.csv",sep=";")
+        df = pd.read_csv("../ProgrammLotti/Stundentabelle.csv",sep=";")
         Schüler = [x.strip() for x in df["Schüler"].unique()]
         Lehrer = [x.strip() for x in df["Lehrer"].unique()]
         Schüler_Min_Betrag = 19.50/60
@@ -192,7 +192,7 @@ class Ui_MainWindow(object):
 
         # Schüler_df in csv_Datei, automatische Erstellung in Zielordner
 
-        Schüler_df.to_csv("./Schüler.csv")
+        Schüler_df.to_csv("../ProgrammLotti/Schüler.csv")
 
         # Lehrer in neuen DataFrame
         for l in Lehrer:
@@ -209,7 +209,7 @@ class Ui_MainWindow(object):
         Lehrer_df =Lehrer_df.set_index("Lehrer")
 
         # Lehrer_df in csv_Datei, automatische Erstellung in Zielordner
-        Lehrer_df.to_csv("./Lehrer.csv")
+        Lehrer_df.to_csv("../ProgrammLotti/Lehrer.csv")
 
 if __name__ == "__main__":
     import sys
