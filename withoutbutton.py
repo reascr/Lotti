@@ -156,6 +156,7 @@ class Ui_MainWindow(object):
 
     # Kopie von tryingobject.py
     def clicked(self):
+        self.b1.setStyleSheet("background-color: rgb(100, 100, 230); color: grey; border-style: inset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px")
         df = pd.read_csv("/Users/rea/Documents/ProgrammLotti/Stundentabelle.csv",sep=";")
         Schüler = [x.strip() for x in df["Schüler"].unique()]
         Lehrer = [x.strip() for x in df["Lehrer"].unique()]
@@ -204,6 +205,7 @@ class Ui_MainWindow(object):
         # Lehrer_df in csv_Datei, automatische Erstellung in Zielordner
         Lehrer_df.to_csv("./Lehrer.csv")
 
+    
 
 if __name__ == "__main__":
     import sys
