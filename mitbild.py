@@ -70,11 +70,12 @@ class Ui_MainWindow(object):
     def clicked(self):
         self.b1.setStyleSheet("background-color: rgb(100, 100, 230); color: grey; border-style: inset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px")
         # neue Klasse für FileSelector
-        # 
-        input = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.csv *.xlsx)")
+        # input = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.csv *.xlsx)")
+        input = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.xlsx)")
         root = os.path.dirname(input[0])
         # TO DO: Checken ob Datei echt ist!!!
-        df = pd.read_csv(input[0],sep=";")
+        #df = pd.read_csv(input[0],sep=";")
+        df = pd.read_excel(input[0], header=1)
         Schüler = [x.strip() for x in df["Schüler"].unique()]
         Lehrer = [x.strip() for x in df["Lehrer"].unique()]
         Schüler_Min_Betrag = 19.50/60
@@ -117,10 +118,8 @@ class Ui_MainWindow(object):
         Lehrer_df =Lehrer_df.set_index("Lehrer")
 
         # Schüler_df und Lehrer_df in csv_Datei, automatische Erstellung in Zielordner
-        #Schüler_df.to_csv("../ProgrammLotti/Schüler.csv")
-        Schüler_df.to_csv(root+"/Schüler.csv")
-        #Lehrer_df.to_csv("../ProgrammLotti/Lehrer.csv")
-        Lehrer_df.to_csv(root+"/Lehrer.csv")
+        Schüler_df.to_excel(root+"/Schüler.xlsx", header=1)
+        Lehrer_df.to_excel(root+"/Lehrer.xlsx", header=1)
         
 
 if __name__ == "__main__":
