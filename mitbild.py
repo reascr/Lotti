@@ -12,10 +12,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QInputDialog, QFileDialog, QMessageBox
 import os 
 import pandas as pd
-import time
+
+# directory of script
+script_dir = os.path.dirname(os.path.realpath(__file__))
 
 DEFAULT_BUTTON_STYLE = "background-color: rgb(193, 164, 234); color: white; border-style: outset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px"
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -41,7 +42,7 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(50, 330, 561, 381))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("Logo.jpg"))
+        self.label.setPixmap(QtGui.QPixmap(os.path.join(script_dir, "Logo.jpg")))
         self.label.setScaledContents(True)
         self.label.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
@@ -74,8 +75,6 @@ class Ui_MainWindow(object):
         self.b1.setStyleSheet("background-color: rgb(100, 100, 230); color: grey; border-style: inset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px")
         # neue Klasse für FileSelector
         fileinput = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.xlsx)")
-        print("b4")
-        print(fileinput)
         if fileinput == ('',''):
             msg = QMessageBox()
             msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
@@ -84,9 +83,19 @@ class Ui_MainWindow(object):
             x = msg.exec_()
             self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
             return
-        print("after")
         root = os.path.dirname(fileinput[0])
         # TO DO: Checken ob Datei echt ist!!!
+        if not os.path.isfile(fileinput[0]):
+            msg = QMessageBox()
+            msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
+            msg.setText("Datei existiert nicht!")
+            msg.setIcon(QMessageBox.Critical)
+            self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
+            x = msg.exec_()
+            return
+        else:
+            pass
+        
         df = pd.read_excel(fileinput[0], header=1)
         Schüler = [x.strip() for x in df["Schüler"].unique()]
         Lehrer = [x.strip() for x in df["Lehrer"].unique()]
@@ -130,13 +139,25 @@ class Ui_MainWindow(object):
         Lehrer_df =Lehrer_df.set_index("Lehrer")
 
         # Schüler_df und Lehrer_df in csv_Datei, automatische Erstellung in Zielordner
-        Schüler_df.to_excel(root+"/Schüler.xlsx", header=1)
-        Lehrer_df.to_excel(root+"/Lehrer.xlsx", header=1)
+        try:
+            Schüler_df.to_excel(root+"/Schüler.xlsx", header=1)
+            Lehrer_df.to_excel(root+"/Lehrer.xlsx", header=1)
+            msg = QMessageBox()
+            msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
+            msg.setText("Datenblätter wurden im selben Ordner wie Inputdatei erstellt!")
+            msg.setIcon(QMessageBox.Information)
+            x = msg.exec_()
+            self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
+            return
+        except:
+            msg = QMessageBox()
+            msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
+            msg.setText("Datenblätter konnten nicht erstellt werden!")
+            msg.setIcon(QMessageBox.Critical)
+            x = msg.exec_()
+            self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
 
-        time.sleep(2) 
-        self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
 
-        
 
 if __name__ == "__main__":
     import sys
