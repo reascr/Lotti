@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         self.b1.setText(_translate("MainWindow", " Monatsabrechnung erstellen"))
         self.b1.clicked.connect(self.clicked) 
     
-    # Kopie von tryingobject.py
+
     def clicked(self):
         self.b1.setStyleSheet("background-color: rgb(100, 100, 230); color: grey; border-style: inset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px")
         # neue Klasse für FileSelector
@@ -99,8 +99,7 @@ class Ui_MainWindow(object):
         df = pd.read_excel(fileinput[0], header=1)
         Schüler = [x.strip() for x in df["Schüler"].unique()]
         Lehrer = [x.strip() for x in df["Lehrer"].unique()]
-        Schüler_Min_Betrag = 19.50/60
-        Lehrer_Min_Betrag = 10/60 
+
     # Schüler in neuen DataFrame
         Minuten_ges = list()
         Betrag_ges = list()
@@ -110,26 +109,28 @@ class Ui_MainWindow(object):
 
         # Minuten gesamt
         for s in Schüler:
-            Min_ges = sum(df["Dauer_min"].where(df["Schüler"] == s.strip()).dropna())
+            Betraege_s = df.loc[df['Schüler'] == s.strip()]["Betrag_Schüler"]
+            Dauer_s = df.loc[df['Schüler'] == s.strip()]["Dauer_min"]
+            Betrag = sum(Dauer_s*(Betraege_s/60))
+            Betrag_ges.append(Betrag)
+            Min_ges = sum(Dauer_s)
             Minuten_ges.append(Min_ges)
-            Bet_ges = Min_ges * Schüler_Min_Betrag
-            Betrag_ges.append(Bet_ges)
-
-
+            
         # neuer Dataframe
         Schüler_df = pd.DataFrame(Schüler, columns=["Schüler"])
         Schüler_df["Minuten_ges"] = Minuten_ges
         Schüler_df["Betrag_ges"] = Betrag_ges
-
         Schüler_df = Schüler_df.set_index("Schüler")
-
 
         # Lehrer in neuen DataFrame
         for l in Lehrer:
-            Min_ges = sum(df["Dauer_min"].where(df["Lehrer"] == l.strip()).dropna())
+            Betraege_l = df.loc[df['Lehrer'] == l.strip()]["Betrag_Lehrer"]
+            Dauer_l = df.loc[df['Lehrer'] == l.strip()]["Dauer_min"]
+            Betrag = sum(Dauer_l*(Betraege_l/60))
+            Betrag_ges_l.append(Betrag)
+            Min_ges = sum(Dauer_l)
             Minuten_ges_l.append(Min_ges)
-            Bet_ges = Min_ges * Schüler_Min_Betrag
-            Betrag_ges_l.append(Bet_ges)
+            
 
 
         # neuer Dataframe
