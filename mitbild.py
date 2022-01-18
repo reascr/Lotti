@@ -140,8 +140,8 @@ class Ui_MainWindow(object):
 
         # Schüler_df und Lehrer_df in csv_Datei, automatische Erstellung in Zielordner
         try:
-            Schüler_df.to_excel(root+"/Schüler.xlsx", header=1)
-            Lehrer_df.to_excel(root+"/Lehrer.xlsx", header=1)
+            Schüler_df.to_excel(os.path.join(root, "Schüler.xlsx"), header=1) 
+            Lehrer_df.to_excel(os.path.join(root, "Lehrer.xlsx"), header=1)
             msg = QMessageBox()
             msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
             msg.setText("Datenblätter wurden im selben Ordner wie Inputdatei erstellt!")
