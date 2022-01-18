@@ -9,31 +9,34 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QInputDialog, QFileDialog
+from PyQt5.QtWidgets import QInputDialog, QFileDialog, QMessageBox
 import os 
 import pandas as pd
+import time
+
+DEFAULT_BUTTON_STYLE = "background-color: rgb(193, 164, 234); color: white; border-style: outset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px"
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(679, 786)
+        #MainWindow.resize(679, 786)
+        # prevent MainWindow from resizing
+        MainWindow.setFixedSize(679, 720)
         MainWindow.setStyleSheet("background-color : rgb(173, 180, 175)")
         MainWindow.setAnimated(True)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.b1 = QtWidgets.QPushButton(self.centralwidget)
         self.b1.setGeometry(QtCore.QRect(140, 110, 321, 111))
+        # align button horizontally
         font = QtGui.QFont()
+        font.setFamily("Avenir")
         font.setPointSize(20)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
         self.b1.setFont(font)
-        self.b1.setStyleSheet("background-color: rgb(193, 164, 234); color: white; border-style: outset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px; \n"
-"\n"
-"\n"
-"\n"
-"")
+        self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
         self.b1.setObjectName("b1")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(50, 330, 561, 381))
@@ -70,12 +73,21 @@ class Ui_MainWindow(object):
     def clicked(self):
         self.b1.setStyleSheet("background-color: rgb(100, 100, 230); color: grey; border-style: inset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px")
         # neue Klasse für FileSelector
-        # input = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.csv *.xlsx)")
-        input = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.xlsx)")
-        root = os.path.dirname(input[0])
+        fileinput = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.xlsx)")
+        print("b4")
+        print(fileinput)
+        if fileinput == ('',''):
+            msg = QMessageBox()
+            msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
+            msg.setText("Bitte Datei auswählen!")
+            msg.setIcon(QMessageBox.Critical)
+            x = msg.exec_()
+            self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
+            return
+        print("after")
+        root = os.path.dirname(fileinput[0])
         # TO DO: Checken ob Datei echt ist!!!
-        #df = pd.read_csv(input[0],sep=";")
-        df = pd.read_excel(input[0], header=1)
+        df = pd.read_excel(fileinput[0], header=1)
         Schüler = [x.strip() for x in df["Schüler"].unique()]
         Lehrer = [x.strip() for x in df["Lehrer"].unique()]
         Schüler_Min_Betrag = 19.50/60
@@ -120,6 +132,10 @@ class Ui_MainWindow(object):
         # Schüler_df und Lehrer_df in csv_Datei, automatische Erstellung in Zielordner
         Schüler_df.to_excel(root+"/Schüler.xlsx", header=1)
         Lehrer_df.to_excel(root+"/Lehrer.xlsx", header=1)
+
+        time.sleep(2) 
+        self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
+
         
 
 if __name__ == "__main__":
