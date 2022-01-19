@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QInputDialog, QFileDialog, QMessageBox
+from PyQt5.QtGui import QPixmap
 import os 
 import pandas as pd
 
@@ -42,7 +43,7 @@ class Ui_MainWindow(object):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(50, 330, 561, 381))
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(os.path.join(script_dir, "Logo.jpg")))
+        self.label.setPixmap(QtGui.QPixmap(os.path.join(script_dir, "Logo.png")))
         self.label.setScaledContents(True)
         self.label.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignVCenter)
         self.label.setObjectName("label")
@@ -149,7 +150,12 @@ class Ui_MainWindow(object):
             msg = QMessageBox()
             msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
             msg.setText("Datenblätter wurden erstellt!")
-            msg.setIcon(QMessageBox.Information)
+            #msg.setIcon(QMessageBox.Information)
+            icon = QPixmap(os.path.join(script_dir, "Icon.png")).scaled(70,70)
+            msg.setIconPixmap(icon)
+        
+
+            
             x = msg.exec_()
             self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
             return
