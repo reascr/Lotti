@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
     def clicked(self):
         self.b1.setStyleSheet("background-color: rgb(100, 100, 230); color: grey; border-style: inset; border-width: 2px;  border-radius: 10px; border-color: beige; padding: 10px")
 
-        fileinput = QFileDialog.getOpenFileName(None, "ÜBERSCHRIFT", './', filter="Tabellen (*.xlsx)")
+        fileinput = QFileDialog.getOpenFileName(None, "Datei auswählen", './', filter="Tabellen (*.xlsx)")
 
         if fileinput == ('',''):
             msg = QMessageBox()
@@ -117,18 +117,38 @@ class Ui_MainWindow(object):
             new_df["Betrag_ges"] = Betrag_ges
             new_df = new_df.set_index(Personengruppe)
             return new_df
-                
-
-    
-        # Schüler_df und Lehrer_df in csv_Datei, automatische Erstellung in Zielordner
+            
         try:
+
+            fileoutput = QFileDialog.getSaveFileName(None, "Dateinamen für Schülerabrechnung eingeben", "./", filter="Tabellen (*.xlsx)")
+            if fileoutput == ('',''):
+                msg = QMessageBox()
+                msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
+                msg.setText("Bitte Namen und Verzeichnis auswählen! Bitte erstellen Sie die Monatsabrechnung erneut.")
+                msg.setIcon(QMessageBox.Critical)
+                x = msg.exec_()
+                self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
+                return
+            
             Schüler_df = createdataframe(Schüler, "Schüler", "Betrag_Schüler")
-            Schüler_df.to_excel(os.path.join(root, "Schüler.xlsx"), header=1) 
+            Schüler_df.to_excel(fileoutput[0], header=1)
+
+            fileoutput = QFileDialog.getSaveFileName(None, "Dateinamen für Lehrerabrechnung eingeben", "./", filter="Tabellen (*.xlsx)")
+            if fileoutput == ('',''):
+                msg = QMessageBox()
+                msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
+                msg.setText("Bitte Namen und Verzeichnis auswählen! Bitte erstellen Sie die Monatsabrechnung erneut.")
+                msg.setIcon(QMessageBox.Critical)
+                x = msg.exec_()
+                self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
+                return
+            
             Lehrer_df = createdataframe(Lehrer, "Lehrer", "Betrag_Lehrer")
-            Lehrer_df.to_excel(os.path.join(root, "Lehrer.xlsx"), header=1)
+            Lehrer_df.to_excel(fileoutput[0], header=1)
+
             msg = QMessageBox()
             msg.setWindowTitle("Schülermeeting Geseke Abrechnungen")
-            msg.setText("Datenblätter wurden im selben Ordner wie Inputdatei erstellt!")
+            msg.setText("Datenblätter wurden erstellt!")
             msg.setIcon(QMessageBox.Information)
             x = msg.exec_()
             self.b1.setStyleSheet(DEFAULT_BUTTON_STYLE)
