@@ -1,0 +1,1 @@
+# A GUI for calculating total hours and salary/price of tutoring hours. (Note: well aware of the fact that this is kind of useless because Excel on it's own its powerful enough but my sister was afraid of getting lost in Excel and destroying the formulas)
